@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
     private Animator animator;
 
     private bool isJumpable;
+    public bool isRunnning;
 
 
     void Start()
@@ -43,10 +45,12 @@ public class Player : MonoBehaviour
         if (movimentoHorizontal != 0)
         {
             animator.SetBool("Run", true);
+            isRunnning = true;
         }
         else
         {
             animator.SetBool("Run", false);
+            isRunnning = false;
         }
     }
 
@@ -64,7 +68,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Ground") && !isJumpable)
         {
             isJumpable = true;
-            //animator.SetBool("Jump", true);
+            animator.SetBool("Jump", false);
         }
     }
 
@@ -73,7 +77,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Ground") && isJumpable)
         {
             isJumpable = false;
-            //animator.SetBool("Jump", true);
+            animator.SetBool("Jump", true);
         }
     }
 
