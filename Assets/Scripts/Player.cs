@@ -6,12 +6,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float speed;
-    [SerializeField] private float jumpForce;
+    //[SerializeField] private float jumpForce;
 
     private Rigidbody2D rb2d;
     private Animator animator;
 
-    private bool isJumpable;
+    //private bool isJumpable;
     public bool isRunnning;
 
 
@@ -24,66 +24,85 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
-        Jump();
 
     }
 
     void Movement()
     {
-        float movimentoHorizontal = Input.GetAxis("Horizontal");
-        rb2d.velocity = new Vector2(movimentoHorizontal * speed, rb2d.velocity.y);
-        if (movimentoHorizontal < 0)
-        {
-            gameObject.GetComponent<SpriteRenderer>().flipX = true;
-        }
-        else if (movimentoHorizontal > 0)
-        {
-            gameObject.GetComponent<SpriteRenderer>().flipX = false;
-        }
+        float horizontalMoviment = Input.GetAxis("Horizontal");
+        rb2d.velocity = new Vector2(horizontalMoviment * speed, rb2d.velocity.y);
 
 
-        if (movimentoHorizontal != 0)
+        if (horizontalMoviment > 0)
         {
-            animator.SetBool("Run", true);
+            animator.SetBool("Right", true);
+            isRunnning = true;
+        }
+        else if(horizontalMoviment < 0)
+        {
+            animator.SetBool("Left", true);
             isRunnning = true;
         }
         else
         {
-            animator.SetBool("Run", false);
+            animator.SetBool("Left", false);
+            animator.SetBool("Right", false);
             isRunnning = false;
         }
-    }
+
+        float verticalMoviment = Input.GetAxis("Vertical");
+        rb2d.velocity = new Vector2(rb2d.velocity.x, verticalMoviment * speed);
 
 
-    void Jump()
-    {
-        if (Input.GetButtonDown("Jump") && isJumpable)
+        if (verticalMoviment > -0)
         {
-            rb2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+            animator.SetBool("Up", true);
+            isRunnning = true;
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground") && !isJumpable)
+        else if (verticalMoviment < -0)
         {
-            isJumpable = true;
-            animator.SetBool("Jump", false);
+            animator.SetBool("Down", true);
+            isRunnning = true;
         }
-    }
-
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground") && isJumpable)
+        else
         {
-            isJumpable = false;
-            animator.SetBool("Jump", true);
+            animator.SetBool("Up", false);
+            animator.SetBool("Down", false);
+            isRunnning = false;
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
 
     }
+
+
+    //void Jump()
+    //{
+    //    if (Input.GetButtonDown("Jump") && isJumpable)
+    //    {
+    //        rb2d.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+    //    }
+    //}
+
+    //private void OnCollisionEnter2D(Collision2D other)
+    //{
+    //    if (other.gameObject.CompareTag("Ground") && !isJumpable)
+    //    {
+    //        isJumpable = true;
+    //        animator.SetBool("Jump", false);
+    //    }
+    //}
+
+    //private void OnCollisionExit2D(Collision2D other)
+    //{
+    //    if (other.gameObject.CompareTag("Ground") && isJumpable)
+    //    {
+    //        isJumpable = false;
+    //        animator.SetBool("Jump", true);
+    //    }
+    //}
+
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+
+    //}
 
 }

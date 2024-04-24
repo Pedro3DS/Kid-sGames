@@ -7,7 +7,6 @@ using UnityEngine;
 public class Camera : MonoBehaviour
 {
     public Transform target; // Referência para o transform do jogador
-    private Transform cameraFix;
     public float smoothSpeed = 0.125f; // Velocidade de suavização do movimento da câmera
     public Vector3 offset; // Distância entre a câmera e o jogador
 
@@ -19,7 +18,6 @@ public class Camera : MonoBehaviour
     private void Start()
     {
         box = GetComponent<BoxCollider2D>();
-        cameraFix = target;
     }
 
     private void Update()
@@ -27,11 +25,11 @@ public class Camera : MonoBehaviour
         
         if(target.GetComponent<Player>().isRunnning)
         {
-            cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, 10f, ref velocity, 0.25f);
+            cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, 4f, ref velocity, 0.25f);
         }
         else
         {
-            cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, 8f, ref velocity, 0.25f);
+            cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, 3f, ref velocity, 0.25f);
         }
 
         sizeY = cam.orthographicSize * 2;
@@ -45,29 +43,29 @@ public class Camera : MonoBehaviour
     {
         if (target != null)
         {
-            Vector3 desiredPosition = cameraFix.position + offset;
+            Vector3 desiredPosition = target.position + offset;
             desiredPosition.z = transform.position.z; // Manter a posição Z da câmera fixa
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
             transform.position = smoothedPosition;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Limit"))
-        {
-            cameraFix = other.gameObject.transform;
-        }
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    if (other.gameObject.CompareTag("Limit"))
+    //    {
+    //        cameraFix = other.gameObject.transform;
+    //    }
             
 
-    }
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            cameraFix = target;
-        }
+    //}
+    //private void OnTriggerExit2D(Collider2D other)
+    //{
+    //    if (other.gameObject.CompareTag("Player"))
+    //    {
+    //        cameraFix = target;
+    //    }
         
-    }
+    //}
 
 }
