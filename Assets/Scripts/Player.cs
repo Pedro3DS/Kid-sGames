@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
     {
         float horizontalMoviment = Input.GetAxis("Horizontal");
         rb2d.velocity = new Vector2(horizontalMoviment * speed, rb2d.velocity.y);
+        float verticalMoviment = Input.GetAxis("Vertical");
+        rb2d.velocity = new Vector2(rb2d.velocity.x, verticalMoviment * speed);
 
 
         if (horizontalMoviment > 0)
@@ -43,18 +45,7 @@ public class Player : MonoBehaviour
             animator.SetBool("Left", true);
             isRunnning = true;
         }
-        else
-        {
-            animator.SetBool("Left", false);
-            animator.SetBool("Right", false);
-            isRunnning = false;
-        }
-
-        float verticalMoviment = Input.GetAxis("Vertical");
-        rb2d.velocity = new Vector2(rb2d.velocity.x, verticalMoviment * speed);
-
-
-        if (verticalMoviment > -0)
+        else if (verticalMoviment > -0)
         {
             animator.SetBool("Up", true);
             isRunnning = true;
@@ -66,10 +57,16 @@ public class Player : MonoBehaviour
         }
         else
         {
+            animator.SetBool("Left", false);
+            animator.SetBool("Right", false);
             animator.SetBool("Up", false);
             animator.SetBool("Down", false);
             isRunnning = false;
         }
+
+
+
+
 
     }
 
