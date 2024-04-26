@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
 
     //private bool isJumpable;
     public bool isRunnning;
+    private bool isHorizontal;
+    private bool isVertical;
 
 
     void Start()
@@ -30,35 +32,46 @@ public class Player : MonoBehaviour
     void Movement()
     {
         float horizontalMoviment = Input.GetAxis("Horizontal");
-        rb2d.velocity = new Vector2(horizontalMoviment * speed, rb2d.velocity.y);
+        
         float verticalMoviment = Input.GetAxis("Vertical");
-        rb2d.velocity = new Vector2(rb2d.velocity.x, verticalMoviment * speed);
+        
 
 
-        if (horizontalMoviment > 0)
+        if (horizontalMoviment > 0 )
         {
             animator.SetBool("Right", true);
             isRunnning = true;
+            rb2d.velocity = new Vector2(horizontalMoviment * speed, rb2d.velocity.y);
         }
         else if(horizontalMoviment < 0)
         {
             animator.SetBool("Left", true);
             isRunnning = true;
-        }
-        else if (verticalMoviment > -0)
-        {
-            animator.SetBool("Up", true);
-            isRunnning = true;
-        }
-        else if (verticalMoviment < -0)
-        {
-            animator.SetBool("Down", true);
-            isRunnning = true;
+            rb2d.velocity = new Vector2(horizontalMoviment * speed, rb2d.velocity.y);
         }
         else
         {
             animator.SetBool("Left", false);
             animator.SetBool("Right", false);
+            isRunnning = false;
+        }
+
+        if (verticalMoviment > -0)
+        {
+            animator.SetBool("Up", true);
+            isRunnning = true;
+            isVertical = true;
+            rb2d.velocity = new Vector2(rb2d.velocity.x, verticalMoviment * speed);
+        }
+        else if (verticalMoviment < -0)
+        {
+            animator.SetBool("Down", true);
+            isRunnning = true;
+            isVertical = true;
+            rb2d.velocity = new Vector2(rb2d.velocity.x, verticalMoviment * speed);
+        }
+        else
+        {
             animator.SetBool("Up", false);
             animator.SetBool("Down", false);
             isRunnning = false;
