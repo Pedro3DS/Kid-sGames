@@ -34,47 +34,49 @@ public class Player : MonoBehaviour
         float horizontalMoviment = Input.GetAxis("Horizontal");
         
         float verticalMoviment = Input.GetAxis("Vertical");
-        
 
+        isRunnning = false;
 
-        if (horizontalMoviment > 0 )
+        if (horizontalMoviment > 0 && !isVertical)
         {
             animator.SetBool("Right", true);
             isRunnning = true;
             rb2d.velocity = new Vector2(horizontalMoviment * speed, rb2d.velocity.y);
+            isHorizontal = true;
         }
-        else if(horizontalMoviment < 0)
+        else if(horizontalMoviment < 0 && !isVertical)
         {
             animator.SetBool("Left", true);
-            isRunnning = true;
             rb2d.velocity = new Vector2(horizontalMoviment * speed, rb2d.velocity.y);
+            isHorizontal = true;
+            isRunnning = true;
         }
         else
         {
             animator.SetBool("Left", false);
             animator.SetBool("Right", false);
-            isRunnning = false;
+            isHorizontal = false;
         }
 
-        if (verticalMoviment > -0)
+        if (verticalMoviment > -0 && !isHorizontal)
         {
             animator.SetBool("Up", true);
-            isRunnning = true;
             isVertical = true;
             rb2d.velocity = new Vector2(rb2d.velocity.x, verticalMoviment * speed);
+            isRunnning = true;
         }
-        else if (verticalMoviment < -0)
+        else if (verticalMoviment < -0 && !isHorizontal)
         {
             animator.SetBool("Down", true);
-            isRunnning = true;
             isVertical = true;
             rb2d.velocity = new Vector2(rb2d.velocity.x, verticalMoviment * speed);
+            isRunnning = true;
         }
         else
         {
             animator.SetBool("Up", false);
             animator.SetBool("Down", false);
-            isRunnning = false;
+            isVertical = false;
         }
 
 
