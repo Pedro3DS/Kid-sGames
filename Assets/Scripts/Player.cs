@@ -58,14 +58,14 @@ public class Player : MonoBehaviour
             isHorizontal = false;
         }
 
-        if (verticalMoviment > -0 && !isHorizontal)
+        if (verticalMoviment > 0 && !isHorizontal)
         {
             animator.SetBool("Up", true);
             isVertical = true;
             rb2d.velocity = new Vector2(rb2d.velocity.x, verticalMoviment * speed);
             isRunnning = true;
         }
-        else if (verticalMoviment < -0 && !isHorizontal)
+        else if (verticalMoviment < 0 && !isHorizontal)
         {
             animator.SetBool("Down", true);
             isVertical = true;
@@ -83,6 +83,12 @@ public class Player : MonoBehaviour
 
 
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log(other.gameObject.tag);
+        other.GetComponent<Enemy>().RunFaze();
     }
 
 
